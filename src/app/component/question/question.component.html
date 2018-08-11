@@ -1,0 +1,24 @@
+<!-- After five questions are asked, the question area is hidden and the results area is shown -->
+<div *ngIf="this.gameComponent.actualQuestion < 5; else results">
+    <h3 class="text-center">Guess it!</h3>
+    <br>
+    <!-- The question text -->
+    <blockquote class="blockquote text-center">
+        {{this.finalQuestions[this.gameComponent.actualQuestion].lyricSnippet}}
+    </blockquote>
+    <br>
+    <!-- The buttons are taking a answer each from the buttons array, that was shuffled before. -->
+    <button id="btn1" (click)="checkAnswer($event)" type="button" class="btn btn-outline-secondary btn-lg btn-block">{{this.buttons[0]}}</button>
+    <button id="btn2" (click)="checkAnswer($event)" type="button" class="btn btn-outline-secondary btn-lg btn-block">{{this.buttons[1]}}</button>
+    <button id="btn3" (click)="checkAnswer($event)" type="button" class="btn btn-outline-secondary btn-lg btn-block">{{this.buttons[2]}}</button>
+    <button id="btn4" (click)="checkAnswer($event)" type="button" class="btn btn-outline-secondary btn-lg btn-block">{{this.buttons[3]}}</button>
+</div>
+<ng-template #results>
+    <h3 class="text-center">Result</h3>
+    <br>
+    <!-- The points gathered are shown -->
+    <h5 class="text-center">You gained: {{this.gameComponent.score}} of 5 points!</h5>
+    <br>
+    <!-- Redirects to the start. -->
+    <button id="start-button" class="btn btn-outline-success btn-lg btn-block" routerLink="">Another one!</button>
+</ng-template>

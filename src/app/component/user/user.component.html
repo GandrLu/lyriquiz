@@ -1,0 +1,17 @@
+<!-- User page that displays spotify data of the current user -->
+<div>
+    <h3>Logged in as {{this.userdata.id}}</h3>
+    <br>
+    <div class="media">
+        <div class="media-body">
+            <dl class="dl-horizontal">
+                <dt>Display name</dt>
+                <dd class="clearfix">{{this.userdata.display_name}}</dd>
+                <dt>Id</dt>
+                <dd>{{this.userdata.id}}</dd>
+                <dt>Spotify URI</dt>
+                <dd><a href="{{this.userdata.external_urls.spotify}}">{{this.userdata.external_urls.spotify}}</a></dd>
+            </dl>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div>
+    <br>
+    <div *ngIf="this.finalQuestions.length >= 5; else loading">
+        <app-question></app-question>
+    </div>
+    <ng-template #loading>
+        <h3 class="text-center">Preparing your Questions...</h3>
+        <br>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width]="(progress) + '%'" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-template>
+
+</div>

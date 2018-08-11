@@ -1,0 +1,24 @@
+<!-- If user is not logged in, this shows a button for login, wich calls the redirectToSpotifyLogin() method.
+     When he is logged in, the router outlet is shown, default the game main menu.-->
+<div class="container" *ngIf="showLogin">
+    <div id="login">
+        <br>
+        <h3 class="text-center">Welcome to Lyriquiz!</h3>
+        <br>
+        <div class="text-center">
+            <img src={{this.lyriquizLogo}} class="img-fluid" alt="">
+        </div>
+        <br>
+        <button (click)="redirectToSpotifyLogin()" id="login-button" class="btn btn-outline-success btn-lg btn-block">Log in with Spotify</button>
+    </div>
+    <div id="loggedin">
+        <div id="user-profile">
+        </div>
+        <div id="oauth">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!showLogin">
+    <router-outlet></router-outlet>
+</div>
