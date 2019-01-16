@@ -1,5 +1,5 @@
 # Lyriquiz
-<img src="https://source.ai.fh-erfurt.de/lu0436ko/lyriquiz/raw/master/src/assets/lyriquiz_logo.png" height="256" width="256">
+<img src="lyriquiz/src/assets/lyriquiz_logo.png" height="256" width="256">
 ## Begrifflichkeiten
 Im folgenden werden mehrere Begriffe genutzt um dieselben Dinge zu bezeichnen:
 * User, Nutzer - Der per Spotify eingeloggte Benutzer von Lyriquiz
@@ -16,7 +16,7 @@ Des Weiteren kann eingesehen werden welcher Nutzer aktuell eingeloggt ist, es gi
 Zugriff auf Lyriquiz erhält man, indem man sich mit einem Spotify Account einloggt.
 ### Technisches Konzept
 Genutzt werden zwei API's: [Spotify](https://developer.spotify.com/) und [Lyrics.ovh](https://lyrics.ovh/).
-Die Spotify bietet neben zahlreichen anderen Informationen eine Liste von maximal 50 der meistgehörten Interpreten oder Lieder eines Nutzers, auswählbar nach Zeitraum `short_term`, `medium_term` und `long_term`. Lyriquiz nutzt den `short_term` um eine rege Zirkulation der Liedauswahl zu garantieren.
+Die Spotify API bietet neben zahlreichen anderen Informationen eine Liste von maximal 50 der meistgehörten Interpreten oder Lieder eines Nutzers, auswählbar nach Zeitraum `short_term`, `medium_term` und `long_term`. Lyriquiz nutzt den `short_term` um eine rege Zirkulation der Liedauswahl zu garantieren.
 
 Um die Spotify API überhaupt nutzen zu können, muss zu allererst ein 'Access-Token' beschafft werden, genutzt wurde dabei der 'Implicit Grant Flow', siehe https://developer.spotify.com/documentation/general/guides/authorization-guide/#implicit-grant-flow.
 
