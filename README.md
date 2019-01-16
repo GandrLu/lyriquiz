@@ -1,4 +1,12 @@
 # Lyriquiz
+<img src="https://source.ai.fh-erfurt.de/lu0436ko/lyriquiz/raw/master/src/assets/lyriquiz_logo.png" height="256" width="256">
+## Begrifflichkeiten
+Im folgenden werden mehrere Begriffe genutzt um dieselben Dinge zu bezeichnen:
+* User, Nutzer - Der per Spotify eingeloggte Benutzer von Lyriquiz
+* Song, Lied, Track - Ein Musikstück
+* Songtext, Liedtext, Text, Lyric - Der Liedtext eines Musikstückes
+* Interpret, Künstler, Artist - Interpret eines Musikstückes
+
 ## Konzept
 Lyriquiz ist ein Quizspiel welches die meistgehörten Musikstücke und Interpreten vom Spotify Account des Nutzers 
 bezieht und auf Basis dieser Daten die Sontexte der Lieder als Frage darstellt. Allerdings werden nur einzelne Zeilen zufällig präsentiert. Der Nutzer bekommt eine Auswahl von vier Antworten dazu angezeigt und muss die richtige auswählen. Nach der Auswahl einer Frage wird farblich angezeigt ob diese richtig oder falsch war. Am Ende einer Runde werden die Punkte angezeigt. Eine Spielrunde besteht zur Zeit aus fünf Fragen und beim Start einer neuen Runde werden wieder neue Textausschnitte ausgewählt.
@@ -6,9 +14,9 @@ bezieht und auf Basis dieser Daten die Sontexte der Lieder als Frage darstellt. 
 Im Spielmenü kann außerdem der Gesamtpunktestand eingesehen werden.
 Des Weiteren kann eingesehen werden welcher Nutzer aktuell eingeloggt ist, es gibt die Möglichkeit sich wieder aus zu loggen und die Spotify Anmeldemaske bietet die Möglichkeit den Nutzer zu wechseln.
 Zugriff auf Lyriquiz erhält man, indem man sich mit einem Spotify Account einloggt.
-### Techisches Konzept
+### Technisches Konzept
 Genutzt werden zwei API's: [Spotify](https://developer.spotify.com/) und [Lyrics.ovh](https://lyrics.ovh/).
-Die Spotify bietet neben zahlreichen anderen Informationen eine Liste von maximal 50 der meistgehörten Interpreten oder Lieder eines Nutzers, auswähbar nach Zeitraum `short_term`, `medium_term` und `long_term`. Lyriquiz nutzt den `short_term` um eine rege Zirkulation der Liedauswahl zu garantieren.
+Die Spotify bietet neben zahlreichen anderen Informationen eine Liste von maximal 50 der meistgehörten Interpreten oder Lieder eines Nutzers, auswählbar nach Zeitraum `short_term`, `medium_term` und `long_term`. Lyriquiz nutzt den `short_term` um eine rege Zirkulation der Liedauswahl zu garantieren.
 
 Um die Spotify API überhaupt nutzen zu können, muss zu allererst ein 'Access-Token' beschafft werden, genutzt wurde dabei der 'Implicit Grant Flow', siehe https://developer.spotify.com/documentation/general/guides/authorization-guide/#implicit-grant-flow.
 
@@ -16,7 +24,33 @@ Mit Hilfe des Access-Tokens werden dann Lieder von der API beschafft, sobald die
 
 Darüber hinaus werden weitere Songs von Spotify angefordert bis eine genügend große Auswahl vorhanden ist um auch die falschen Antwortmöglichkeiten mit genügend Varianz zu befüllen.
 #### Firebase Cloud Firestore 
-Zur Datenhaltung wird theoretisch Cloud Firestore genutzt, allerdings im aktuellen Stand nur zum Erfassen der Nutzer die sich bei Lyriquiz über Spotify anmelden. Von diesen wird die Spotify Nutzer ID gespeichert, um in einem späteren Stand bspw. die bereits genutzten Songs und Textstellen zu speichern und nciht eerneut anzuzeigen.
+Zur Datenhaltung wird theoretisch Cloud Firestore genutzt, allerdings im aktuellen Stand nur zum Erfassen der Nutzer die sich bei Lyriquiz über Spotify anmelden. Von diesen wird die Spotify Nutzer ID gespeichert, um in einem späteren Stand bspw. die bereits genutzten Songs und Textstellen zu speichern und nicht erneut anzuzeigen.
+## Funktionen
+### Funktionen aus Nutzersicht
+#### Login
+Der Login wird über eine Weiterleitung an Spotify realisiert. Dort loggt sich ein Nutzer mit seinem Spotify Account ein und wird anschließend zurück an Lyriquiz geleitet. Dadurch authentifiziert er zugleich sich selbst und autorisiert Lyriquiz seine "User-Top-Read" Daten zu nutzen. Indem bei der Rückleitung zu Lyriquiz ein Access Token, an die URI angehängt, von Spotify mit den entsprechenden Berechtigungen mit geschickt wird. Dieser Token wird dann bei jedem Request an Spotify mit geschickt, zur Authentifizierung.
+Beim Login wird der Nutzer gleichzeitig in der Firestore Cloud neu angelegt, falls er Lyriquiz zum ersten Mal nutzt. Wenn er schon hinterlegt ist, wird er nicht erneut angelegt.
+#### Quizspiel [Game]
+Das Spiel ist die Hauptfunktion der Web-App. Zu Beginn werden aus den meistgehörten Liedern der letzten vier Wochen von Spotify mehrere zufällig ausgewählt und zu diesen die Songtexte von Lyrics.ovh angefordert. Es wird immer ein einzelnes zufälliges Lied genommen und im Anschluss daran der Text dazu geholt, sowie im Anschluss daran der Text für eine Frage zurecht gestutzt. Dieser Vorgang wiederholt sich, bis fünf Songtexte vorhanden sind. Anschließend werden noch weitere Songtexte angefordert, um genügend für eine Auswahl von falschen Antworten zu haben.
+Dieser Vorgang geschieht so "Schritt für Schritt", da es ansonsten zu Problemen auf Grund der Asynchronität und der Tatsache, dass nicht alle Liedtexte bei der Lyrics API verfügbar sind, kommen kann. 
+Werden beispielsweise mehrere Lieder auf einmal von Spotify angefordert, kann nicht vorrausgesehen werden, für wieviele dieser tatsächlich Liedtexte verfügbar sind. Außerdem könnten mehrere Lieder nur in einer linearen Sequenz geholt werden, somit wäre die Zufälligkeit der Auswahl eingeschränkt.
+
+**Softwaretechnischer Hintergrund:** [Wiki](https://source.ai.fh-erfurt.de/lu0436ko/lyriquiz/wiki/fetchLyrics%28%29)
+##### Ladeanimation
+Da speziell die Anfrage der Texte teilweise etwas Zeit in Anspruch nimmt, einerseits da die API nicht so unmittelbar antwortet wie die Spotify API, andererseits da bei nicht vorhanden sein des Liedtextes ein neues Lied ausgewählt wird und sich der Vorgang wiederholt, wird ein Ladebalken angezeigt bevor die Fragen beginnen. Dieser repräsentiert den Status der erfolgreich angeforderten Texte und wird bei jedem neu erhaltenen Text aktualisiert. Er ist komplett gefüllt wenn fünf Texte vorhanden sind. Dann verschwindet der Balken und die erste Frage wird gezeigt.
+##### Fragen
+Es werden nacheinander fünf Fragen angezeigt. Eine Frage besteht aus ein bis drei Zeilen eines Liedtextes. Zu dieser Frage werden vier Buttons mit möglichen Namen des entsprechenden Liedes angezeigt. Nur einer ist der Richtige, wird der richtige Button angeklickt, ändert dieser die Farbe zu Grün. Wird der Falsche angeklickt, wird er Rot und der Button, welcher die richtige Wahl gewesen wäre, färbt sich Gelb. Nach einer Sekunde erscheint die nächste Frage und alle Buttons werden wieder Neutral gefärbt.
+##### Ergebnis
+Wurden alle fünf Fragen bearbeitet, erscheint das Ergebnis und teilt mit wie viele Punkte man erreicht hat. Außerdem werden die Punkte zu den Gesamtpunkten der aktuellen Sitzung hinzugefügt.
+#### Statistik [Statistics]
+Auf der Statistik Seite werden die insgesamt in dieser Sitzung erreichten Punkte angezeigt. Loggt sich der Nutzer aus oder lädt die Seite neu, sind die Punkte zurück gesetzt. Es war geplant diese Punkte in der Firestore Cloud zu speichern sowie andere Statistiken anzuzeigen, beispielsweise das Lied oder der Interpret bei welchem der Nutzer am textsichersten ist. Diese Funktionen konnten bis zum aktuellen Stand allerdings nicht realisiert werden.
+#### Benutzer [User]
+Die Benutzerseite zeigt die Informationen zum angemeldeten Spotify Nutzer und somit auf welche Daten Lyriquiz Zugriff hat.
+#### About
+Auf der "About" Seite können Informationen zu Lyriquiz, den beteiligten Personen und genutzter Ressourcen eingesehen werden.
+#### Logout
+In der Navigationsleiste oben rechts findet sich eine Logout-Funktion über die der Nutzer sich abmelden kann. Dies geschieht indem der Access-Token und andere zur Nutzung der Spotify API nötige Parameter gelöscht werden. Dadurch ist die Nutzung von Lyriquiz nicht mehr möglich ohne erneuten Login.
+
 ## Installation und Login
 * Zuerst das Repository clonen oder als ZIP herunterladen und entpacken
 * Sicherstellen dass die aktuellste Node.js sowie NPM Version installiert ist
@@ -48,7 +82,8 @@ Zur Datenhaltung wird theoretisch Cloud Firestore genutzt, allerdings im aktuell
 | Ansprechen API User                                |     6 h           |
 | Ansprechen API Songs und Abstimmung mit API Lyrics |    18 h         |
 | Optimierungen Spielmechanik                        |     9 h         |
-| Allgemein Seitenlayout und Logik                                |     18           |
+| Allgemein Seitenlayout und Logik                                |     18h           |
+| **Gesamt** | **67h**  |
 
 
 
