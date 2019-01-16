@@ -1,5 +1,5 @@
 # Lyriquiz
-<img src="https://github.com/acidyumyum/lyriquiz/src/assets/lyriquiz_logo.png" height="256" width="256">
+<img src="https://github.com/acidyumyum/lyriquiz/blob/master/src/assets/lyriquiz_logo.png" height="256" width="256">
 ## Begrifflichkeiten
 Im folgenden werden mehrere Begriffe genutzt um dieselben Dinge zu bezeichnen:
 * User, Nutzer - Der per Spotify eingeloggte Benutzer von Lyriquiz
