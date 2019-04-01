@@ -124,4 +124,3 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 
-![pic](http://www.scdn.co/i/_global/open-graph-default.png)
