@@ -1,4 +1,6 @@
 # Lyriquiz
+**[Maybe not functional at the moment, I hope I have time soon to fix it]**
+
 <img src="https://github.com/acidyumyum/lyriquiz/blob/master/src/assets/lyriquiz_logo.png" height="256" width="256">
 
 ## Begrifflichkeiten
