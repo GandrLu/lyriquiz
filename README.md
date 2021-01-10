@@ -97,10 +97,10 @@ In der Navigationsleiste oben rechts findet sich eine Logout-Funktion über die 
 
 ## Terminology
 In the following several terms are used to denote the same things:
-* User, User - The Lyriquiz user logged in via Spotify
-* Song, Lied, Track - A piece of music
-* Lyrics, Lyrics, Text, Lyric - The lyrics of a piece of music
-* Performer, artist, artist - interpreter of a piece of music
+* User - The Lyriquiz user logged in via Spotify
+* Song, Track - A piece of music
+* Lyrics, Text, Lyric - The lyrics of a piece of music
+* Performer, artist - interpreter of a piece of music
 
 ## Concept
 Lyriquiz is a quiz game that shows the most popular pieces of music and artists from the user's Spotify account
