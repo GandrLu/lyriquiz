@@ -2,6 +2,8 @@
 
 <img src="https://github.com/acidyumyum/lyriquiz/blob/master/src/assets/lyriquiz_logo.png" height="256" width="256">
 
+-----
+
 # Deutsch
 
 ## Begrifflichkeiten
@@ -88,6 +90,8 @@ In der Navigationsleiste oben rechts findet sich eine Logout-Funktion über die 
 | Allgemein Seitenlayout und Logik                                |     18h           |
 | **Gesamt** | **67h**  |
 
+
+-----
 
 # English
 
