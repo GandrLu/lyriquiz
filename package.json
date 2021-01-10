@@ -23,11 +23,14 @@
     "angularfire2": "^5.1.1",
     "bootswatch": "^4.2.1",
     "core-js": "^2.6.2",
+	"elliptic": ">=6.5.3",
     "firebase": "^5.7.3",
 	"https-proxy-agent": ">=2.2.3",
+	"http-proxy": ">=1.18.1",
     "jquery": "^3.3.1",
     "popper.js": "^1.14.6",
     "rxjs": "^6.3.3",
+	"tree-kill": ">=1.2.2",
     "zone.js": "^0.8.27"
   },
   "devDependencies": {
