@@ -23,7 +23,7 @@
     "angularfire2": "^5.1.1",
     "bootswatch": "^4.2.1",
     "core-js": "^2.6.2",
-	"elliptic": ">=6.5.3",
+	"elliptic": ">=6.5.4",
 	"extend": ">=3.0.2",
     "firebase": "^5.7.3",
 	"fstream": ">=1.0.12",
